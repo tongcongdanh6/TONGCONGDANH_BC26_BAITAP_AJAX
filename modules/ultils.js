@@ -1,5 +1,3 @@
-
-
 export const formatCurrency = (countryCode, currencyCode, number) => {
     // Create our number formatter.
     let formatter = new Intl.NumberFormat(countryCode, {
@@ -22,27 +20,26 @@ export const renderTable = (tableSelector, arrData) => {
                 <td>${item.heSoChucVu}</td>
                 <td>${formatCurrency('vi-VN', 'VND', item.luongCoBan)}</td>
                 <td>${item.soGioLamTrongThang}</td>
+                <td>
+                    <button class="btn btn-sm btn-danger" onclick="import('../controllers/index.js').then(o => o.xoaNhanVien('${item.maNhanVien}'));">Xóa</button>
+                    <button class="btn btn-sm btn-info" onclick="import('../controllers/index.js').then(o => o.suaNhanVien('${item.maNhanVien}'));">Sửa</button>
+                </td>
             </tr>
         `;
     }
 
     document.querySelector(tableSelector).innerHTML = htmlStr;
-    console.log('table', arrData);
+    // console.log('table', arrData);
 }
 
-export const renderError = (errorSelector, arrErrors, errorLabel) => {
-    let htmlStr = `<h4>${errorLabel}</h4>`;
-
+export const renderError = (arrErrors) => {
+    // Render lỗi
     for(let error of arrErrors) {
-        htmlStr += `
-            <p class="text-danger m-0">
-                <span class="badge badge-info">${error.elementLabel}</span> ${error.message}
-            </p>
-        `;
+        let errorItem = document.createElement('p');
+        errorItem.className = 'text-danger m-0';
+        errorItem.innerHTML = `<span class="badge badge-info">${error.elementLabel}</span> ${error.message}`;
+        document.querySelector(error.errorSelector).appendChild(errorItem);
     }
-
-    document.querySelector(errorSelector).innerHTML = htmlStr;
-    document.querySelector(errorSelector).className = 'w-100 bg-light p-3 mt-3';
 }
 
 export const removeVietnameseTones = (str) => {
@@ -70,4 +67,39 @@ export const removeVietnameseTones = (str) => {
     str = str.replace(/ + /g," ");
     str = str.trim();
     return str;
+}
+
+export const showToastify = (message, styleClass) => {
+    Toastify({
+        text: message,
+        className: styleClass,
+        duration: 2500,
+        position: 'left',
+        gravity: 'top'
+    }).showToast();
+}
+
+export const clearContent = arrSelector => {
+    for(let item of arrSelector) {
+        document.querySelector(item).innerHTML = '';
+    }
+}
+
+export const clearAllInput = () => {
+    let arrInput = document.querySelectorAll('form input');
+    for(let input of arrInput) {
+        input.value = '';
+        // Xóa state disabled (nếu có)
+        input.disabled = false;
+    }
+
+    let arrSelection = document.querySelectorAll('form select');
+    for(let select of arrSelection) {
+        // Trả về vị trí chọn mặc định của các selection
+        select.selectedIndex = 0;
+    }
+}
+
+export const focusInput = selector => {
+    document.querySelector(selector).focus();
 }

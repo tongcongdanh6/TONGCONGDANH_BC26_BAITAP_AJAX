@@ -10,7 +10,7 @@ const MUST_BE_LESS_THAN_OR_EQUAL = (number) => `phải nhỏ hơn hoặc bằng 
 const MUST_BE_ALPHABET = 'phải là ký tự';
 
 export class Validation {
-    // Private attribute
+    // #PRIVATE attribute
     #dataRules = [];
     #dataValueUserInput = {};
     
@@ -19,7 +19,7 @@ export class Validation {
         this.#dataValueUserInput = __dataUserInput;
     }
 
-    // Public Method
+    // PUBLIC Method
     formValidate = () => {
         let errors = [];
         for(let objInput of this.#dataRules) {
@@ -29,59 +29,57 @@ export class Validation {
             let arrRules = rules.split('|');
 
             for(let rules of arrRules) {
-                // console.log("name = ", name);
-                // console.log("rules = ", rules);
                 let valueUserInput = this.#dataValueUserInput[name];
                 switch(rules) {
                     case 'empty' :
                         if(this.#checkEmpty(valueUserInput)) {
-                            errors.push(new Error(display, CANNOT_EMPTY));
+                            errors.push(new Error(`#${name}_errors`, display, CANNOT_EMPTY));
                         }
                         break;
                     case 'all_numeric' :
                         if(!this.#checkAllNumeric(valueUserInput)) {
-                            errors.push(new Error(display, MUST_BE_NUMERIC));                            
+                            errors.push(new Error(`#${name}_errors`, display, MUST_BE_NUMERIC));                            
                         }
                         break;
                     case 'all_alphabet' :
                         if(!this.#checkAllAlphabet(valueUserInput)) {
-                            errors.push(new Error(display, MUST_BE_ALPHABET));     
+                            errors.push(new Error(`#${name}_errors`, display, MUST_BE_ALPHABET));     
                         }
                         break;
                     case rules.match(/min_length/)?.input :
                         // Lấy số ký tự tối thiểu cho phép
                         let minLengthRequired = +rules.match(/\d+/)[0];
                         if(this.#checkLessThanMinLength(valueUserInput, minLengthRequired)) {
-                            errors.push(new Error(display, CANNOT_LESS_THAN_LENGTH(minLengthRequired)));    
+                            errors.push(new Error(`#${name}_errors`, display, CANNOT_LESS_THAN_LENGTH(minLengthRequired)));    
                         }
                         break;
                     case rules.match(/max_length/)?.input :
                         // Lấy số ký tự tối đa cho phép
                         let maxLengthRequired = +rules.match(/\d+/)[0];
                         if(this.#checkGreaterThanMaxLength(valueUserInput, maxLengthRequired)) {
-                            errors.push(new Error(display, CANNOT_GREATER_THAN_LENGTH(maxLengthRequired)));    
+                            errors.push(new Error(`#${name}_errors`, display, CANNOT_GREATER_THAN_LENGTH(maxLengthRequired)));    
                         }
                         break;
                     case rules.match(/must_greater_than_or_equal/)?.input :
                         let minRequired = +rules.match(/\d+/)[0];
                         if(!this.#checkGreaterThanOrEqual(valueUserInput, minRequired)) {
-                            errors.push(new Error(display, MUST_BE_GREATER_THAN_OR_EQUAL(minRequired)));
+                            errors.push(new Error(`#${name}_errors`, display, MUST_BE_GREATER_THAN_OR_EQUAL(minRequired)));
                         }
                         break;
                     case rules.match(/must_less_than_or_equal/)?.input :
                         let maxRequired = +rules.match(/\d+/)[0];
                         if(!this.#checkLessThanOrEqual(valueUserInput, maxRequired)) {
-                            errors.push(new Error(display, MUST_BE_LESS_THAN_OR_EQUAL(maxRequired)));
+                            errors.push(new Error(`#${name}_errors`, display, MUST_BE_LESS_THAN_OR_EQUAL(maxRequired)));
                         }
                         break;
                 }
             }
         }
-
+        console.log(errors);
         return errors;
     }
 
-    // PRIVATE functions()
+    // #PRIVATE methods
     #checkEmpty(value) {
         return value === '';
     }

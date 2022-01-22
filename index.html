@@ -8,8 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    
+    
     <link rel="stylesheet" href="./css/custom.css">
 </head>
 
@@ -17,20 +21,20 @@
     <div class="container-fluid">
         <h1 class="text-center py-5">Quản lý nhân viên</h1>
         <div class="row">
-            <div class="col-md-6 col-12">
+            <div class="col-md-4 col-12">
 
                 <form id="frmNhanVien">
                     <div class="form-group">
                         <label for="maNhanVien">Mã nhân viên</label>
                         <input type="text" class="form-control" name="maNhanVien" id="maNhanVien"
                             placeholder="Mã nhân viên">
-                        <span class="text-danger" id="validate_maNhanVien_empty"></span>
+                        <span class="text-danger" id="maNhanVien_errors"></span>
                     </div>
                     <div class="form-group">
                         <label for="tenNhanVien">Tên nhân viên</label>
                         <input type="text" class="form-control" name="tenNhanVien" id="tenNhanVien"
                             placeholder="Tên nhân viên">
-                        <span class="text-danger" id="validate_tenNhanVien_empty"></span>
+                        <span class="text-danger" id="tenNhanVien_errors"></span>
                     </div>
                     <div class="form-group">
                         <label for="heSoChucVu">Chức vụ</label>
@@ -44,21 +48,23 @@
                         <label for="luongCoBan">Lương cơ bản</label>
                         <input type="number" class="form-control" name="luongCoBan" id="luongCoBan"
                             placeholder="Lương cơ bản">
-                        <span class="text-danger" id="validate_luongCoBan_empty"></span>
+                        <span class="text-danger" id="luongCoBan_errors"></span>
                     </div>                    
                     <div class="form-group">
                         <label for="soGioLamTrongThang">Số giờ làm trong tháng</label>
                         <input type="number" class="form-control" name="soGioLamTrongThang" id="soGioLamTrongThang"
                             placeholder="Số giờ làm trong tháng">
-                        <span class="text-danger" id="validate_soGioLamTrongThang_empty"></span>    
+                        <span class="text-danger" id="soGioLamTrongThang_errors"></span> 
                     </div>
                     <button class="btn btn-primary" id="btnThemNhanVien">Thêm nhân viên</button>
+                    <button class="btn btn-warning" id="btnClearAllInput">Reset</button>
+                    <button class="btn btn-success" id="btnCapNhat">Cập nhật</button>
                 </form>
                 <div class="w-100" id="errors_container">
                     
                 </div>
             </div>
-            <div class="col-md-6 col-12 overflow-auto">
+            <div class="col-md-8 col-12 overflow-auto">
                 <table class="table table-striped">
                     <thead class="bg-dark text-white">
                         <tr>
@@ -68,6 +74,7 @@
                             <th>Hệ số chức vụ</th>
                             <th>Lương cơ bản</th>
                             <th>Số giờ làm trong tháng</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody id="tblDsNVBody">
@@ -75,6 +82,12 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+
+    <div class="container-fluid footer bg-dark py-5">
+        <div class="py-2 text-white text-center">
+            Cybersoft - Bootcamp26 - Tống Công Danh
         </div>
     </div>
     <!-- Optional JavaScript -->
@@ -91,6 +104,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js"
         integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <script type="module" src="./controllers/index.js"></script>
 </body>
 
